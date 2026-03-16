@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全正和｜2026 作品集</title>
+    <meta
+      name="description"
+      content="全正和｜UI/UX 设计师 2026 作品集。精选项目：vika、bika、其他。"
+    />
+    <meta name="theme-color" content="#07060d" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/ogl@1.0.11/dist/ogl.umd.js" defer></script>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./aurora.css" />
+  </head>
+  <body>
+    <div class="bg-noise" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"></div>
+    <div class="bg-aurora" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-stars" aria-hidden="true"></div>
+
+    <header class="header">
+      <div class="container header__inner">
+        <a class="brand" href="#top" aria-label="回到顶部">
+          <span class="brand__dot" aria-hidden="true"></span>
+          <span class="brand__text">全正和</span>
+        </a>
+
+        <nav class="nav" aria-label="主导航">
+          <a class="nav__link" href="#projects">Projects</a>
+          <a class="nav__link" href="#about">About</a>
+          <a class="nav__link" href="#contact">Contact</a>
+        </nav>
+
+        <div class="header__actions">
+          <a class="btn btn--ghost" href="#projects">查看项目</a>
+          <a class="btn btn--primary" href="#contact">联系我</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero hero--funnel" data-reveal>
+        <div class="hero__bg" aria-hidden="true">
+          <div
+            class="aurora-container"
+            data-aurora
+            data-color-stops="#7cff67,#B19EEF,#5227FF"
+            data-blend="0.5"
+            data-amplitude="1.0"
+            data-speed="1"
+          ></div>
+        </div>
+
+        <div class="container hero__inner">
+          <div class="hero__copy hero__copy--center">
+            <div class="pill">
+              <span class="pill__dot" aria-hidden="true"></span>
+              <span>UI/UX Designer</span>
+              <span class="pill__sep" aria-hidden="true"></span>
+              <span>2026 Portfolio</span>
+            </div>
+
+            <h1 class="hero__title hero__title--xl" data-stagger>
+              2026 年作品集
+            </h1>
+
+            <p class="hero__subtitle hero__subtitle--xl" data-stagger data-blur-in>
+              不止是好看，更是清晰、可用、可落地的体验设计。
+            </p>
+
+            <div class="chips" aria-label="标签">
+              <span class="chip">UI</span>
+              <span class="chip">UX</span>
+              <span class="chip">Design System</span>
+              <span class="chip">Prototyping</span>
+              <span class="chip">Research</span>
+              <span class="chip">Motion</span>
+            </div>
+
+            <div class="hero__cta hero__cta--center" data-stagger>
+              <a class="btn btn--primary btn--brand" href="#dashboard">Get Started</a>
+            </div>
+          </div>
+
+          <div class="trusted" data-stagger>
+            <div class="trusted__kicker">Trusted by...</div>
+            <div class="logo-wall" aria-label="品牌 Logo 墙">
+              <div class="logo-wall__mask" aria-hidden="true"></div>
+              <div class="logo-wall__track" data-marquee>
+                <div class="logo-wall__row">
+                  <span class="logo">vika</span>
+                  <span class="logo">bika</span>
+                  <span class="logo">studio</span>
+                  <span class="logo">startup</span>
+                  <span class="logo">agency</span>
+                  <span class="logo">design</span>
+                  <span class="logo">product</span>
+                  <span class="logo">research</span>
+                </div>
+                <div class="logo-wall__row" aria-hidden="true">
+                  <span class="logo">vika</span>
+                  <span class="logo">bika</span>
+                  <span class="logo">studio</span>
+                  <span class="logo">startup</span>
+                  <span class="logo">agency</span>
+                  <span class="logo">design</span>
+                  <span class="logo">product</span>
+                  <span class="logo">research</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="dashboard" data-reveal>
+        <div class="container">
+          <div class="dash-wrap" data-dash-wrap>
+            <div class="dash" data-dash>
+              <div class="dash__sidebar">
+                <div class="dash__brand">Dashboard</div>
+                <div class="dash__nav">
+                  <div class="dash__nav-item is-active">Overview</div>
+                  <div class="dash__nav-item">Projects</div>
+                  <div class="dash__nav-item">Insights</div>
+                  <div class="dash__nav-item">Contact</div>
+                </div>
+              </div>
+              <div class="dash__main">
+                <div class="dash__stats">
+                  <div class="stat glass">
+                    <div class="stat__label">Processed</div>
+                    <div class="stat__value">$2.4M</div>
+                    <div class="stat__sub">processed volume</div>
+                  </div>
+                  <div class="stat glass">
+                    <div class="stat__label">Daily Peak</div>
+                    <div class="stat__value">+18%</div>
+                    <div class="stat__sub">week over week</div>
+                  </div>
+                  <div class="stat glass">
+                    <div class="stat__label">Automations</div>
+                    <div class="stat__value">42,805</div>
+                    <div class="stat__sub">tasks automated</div>
+                  </div>
+                </div>
+
+                <div class="dash__table glass">
+                  <div class="dash__table-head">
+                    <div class="dash__table-title">Recent activity</div>
+                    <div class="dash__pill">Live</div>
+                  </div>
+                  <div class="table">
+                    <div class="row row--head">
+                      <span>Name</span><span>Status</span><span>Owner</span><span>Updated</span>
+                    </div>
+                    <div class="row">
+                      <span>vika redesign</span><span class="tag tag--ok">Shipped</span><span>QZH</span><span>Today</span>
+                    </div>
+                    <div class="row">
+                      <span>bika prototype</span><span class="tag tag--wip">In progress</span><span>QZH</span><span>2d ago</span>
+                    </div>
+                    <div class="row">
+                      <span>design system</span><span class="tag tag--ok">Stable</span><span>QZH</span><span>1w ago</span>
+                    </div>
+                    <div class="row">
+                      <span>usability test</span><span class="tag tag--wip">Planned</span><span>QZH</span><span>2w ago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about" data-reveal>
+        <div class="container">
+          <div class="section__head">
+            <h2 class="section__title">About</h2>
+            <p class="section__desc">
+              我是全正和，一名 UI/UX 设计师。擅长从用户与业务目标出发，做信息架构、交互与视觉系统化落地。
+            </p>
+          </div>
+
+          <div class="bento bento--about">
+            <div class="glass card bento__item bento__item--intro" data-tilt>
+              <h3 class="card__title">我做什么</h3>
+              <ul class="list">
+                <li>端到端体验设计：从探索到交付</li>
+                <li>设计系统：组件规范与一致性</li>
+                <li>原型与动效：更好解释复杂交互</li>
+              </ul>
+            </div>
+
+            <div class="glass card bento__item bento__item--values" data-tilt>
+              <h3 class="card__title">我在意什么</h3>
+              <ul class="list">
+                <li>可用性与可读性优先</li>
+                <li>一致性、可维护与可扩展</li>
+                <li>用数据与证据做设计决策</li>
+              </ul>
+            </div>
+
+            <div class="glass card bento__item bento__item--tools" data-tilt>
+              <h3 class="card__title">工具/交付</h3>
+              <div class="chips chips--wrap">
+                <span class="chip chip--muted">Figma</span>
+                <span class="chip chip--muted">ProtoPie</span>
+                <span class="chip chip--muted">After Effects</span>
+                <span class="chip chip--muted">Framer</span>
+                <span class="chip chip--muted">Notion</span>
+                <span class="chip chip--muted">Hand-off Spec</span>
+              </div>
+            </div>
+
+            <div class="glass card bento__item bento__item--metrics" data-tilt>
+              <div class="metrics__head">
+                <h3 class="card__title">数据叙事（占位）</h3>
+                <span class="metrics__note">随滚动增长</span>
+              </div>
+              <div class="metrics" data-chart>
+                <div class="metric">
+                  <div class="metric__top">
+                    <span class="metric__label">Design QA</span>
+                    <span class="metric__value" data-count-to="92">0</span>
+                  </div>
+                  <div class="bar"><div class="bar__fill" data-bar-to="0.92"></div></div>
+                </div>
+                <div class="metric">
+                  <div class="metric__top">
+                    <span class="metric__label">Handoff Clarity</span>
+                    <span class="metric__value" data-count-to="86">0</span>
+                  </div>
+                  <div class="bar"><div class="bar__fill" data-bar-to="0.86"></div></div>
+                </div>
+                <div class="metric">
+                  <div class="metric__top">
+                    <span class="metric__label">Iteration Speed</span>
+                    <span class="metric__value" data-count-to="74">0</span>
+                  </div>
+                  <div class="bar"><div class="bar__fill" data-bar-to="0.74"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="projects" data-reveal>
+        <div class="container">
+          <div class="section__head">
+            <h2 class="section__title">Projects</h2>
+            <p class="section__desc">
+              三个精选项目。点击卡片查看弹窗详情（可后续补图与指标）。
+            </p>
+          </div>
+
+          <div class="bento bento--projects">
+            <button class="project glass bento__item bento__item--p1" type="button" data-open-modal="vika" data-tilt data-project>
+              <div class="project__top">
+                <div class="project__name">vika</div>
+                <div class="project__badge">Case Study</div>
+              </div>
+              <div class="project__desc">效率工具体验升级与信息架构重构。</div>
+              <div class="chips chips--wrap">
+                <span class="chip chip--muted">IA</span>
+                <span class="chip chip--muted">Interaction</span>
+                <span class="chip chip--muted">Design System</span>
+              </div>
+              <div class="project__meta">
+                <span>点击查看</span>
+                <span class="arrow" aria-hidden="true">↗</span>
+              </div>
+            </button>
+
+            <button class="project glass bento__item bento__item--p2" type="button" data-open-modal="bika" data-tilt data-project>
+              <div class="project__top">
+                <div class="project__name">bika</div>
+                <div class="project__badge">Product</div>
+              </div>
+              <div class="project__desc">从 0 到 1 的产品体验定义与高保真落地。</div>
+              <div class="chips chips--wrap">
+                <span class="chip chip--muted">UX</span>
+                <span class="chip chip--muted">Prototype</span>
+                <span class="chip chip--muted">Motion</span>
+              </div>
+              <div class="project__meta">
+                <span>点击查看</span>
+                <span class="arrow" aria-hidden="true">↗</span>
+              </div>
+            </button>
+
+            <button class="project glass bento__item bento__item--p3" type="button" data-open-modal="other" data-tilt data-project>
+              <div class="project__top">
+                <div class="project__name">其他</div>
+                <div class="project__badge">Selected</div>
+              </div>
+              <div class="project__desc">若干小项目与实验：视觉、动效与交互探索。</div>
+              <div class="chips chips--wrap">
+                <span class="chip chip--muted">Visual</span>
+                <span class="chip chip--muted">Exploration</span>
+                <span class="chip chip--muted">UI</span>
+              </div>
+              <div class="project__meta">
+                <span>点击查看</span>
+                <span class="arrow" aria-hidden="true">↗</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact" data-reveal>
+        <div class="container">
+          <div class="section__head">
+            <h2 class="section__title">About / Contact</h2>
+            <p class="section__desc">
+              欢迎交流合作与机会。你可以通过微信或邮箱联系我。
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <div class="glass card">
+              <h3 class="card__title">微信</h3>
+              <div class="qr">
+                <div class="qr__placeholder" role="img" aria-label="微信二维码占位">
+                  <div class="qr__grid" aria-hidden="true"></div>
+                  <div class="qr__label">QR Placeholder</div>
+                </div>
+                <p class="muted">
+                  后续把二维码图片替换到 `assets/wechat-qr.png` 并更新这里的
+                  <code>img</code> 即可。
+                </p>
+              </div>
+            </div>
+
+            <div class="glass card">
+              <h3 class="card__title">邮箱</h3>
+              <p class="contact-email">
+                <a class="link" href="mailto:quanzhenghe15@gmail.com"
+                  >quanzhenghe15@gmail.com</a
+                >
+              </p>
+              <div class="contact-actions">
+                <button class="btn btn--ghost" type="button" data-copy-email>
+                  复制邮箱
+                </button>
+                <a class="btn btn--primary" href="mailto:quanzhenghe15@gmail.com">
+                  发邮件
+                </a>
+              </div>
+              <p class="muted" id="copy-status" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <footer class="footer">
+            <span>© <span id="year"></span> 全正和</span>
+            <span class="footer__sep" aria-hidden="true"></span>
+            <span class="muted">UI/UX Portfolio</span>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal" id="modal" aria-hidden="true">
+      <div class="modal__backdrop" data-close-modal></div>
+      <div
+        class="modal__panel glass"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        tabindex="-1"
+      >
+        <div class="modal__header">
+          <div>
+            <div class="modal__kicker">Project</div>
+            <h3 class="modal__title" id="modal-title">vika</h3>
+          </div>
+          <button class="icon-btn" type="button" aria-label="关闭" data-close-modal>
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <div class="modal__body" id="modal-body">
+          <div class="modal__cover" role="img" aria-label="封面占位">
+            <div class="modal__cover-inner">
+              <div class="modal__cover-badge">Cover Placeholder</div>
+            </div>
+          </div>
+
+          <div class="modal__cols">
+            <div class="modal__col">
+              <h4 class="h4">背景 / 目标</h4>
+              <p class="muted" data-field="context">
+                占位文本：补充项目背景、目标用户、业务目标与约束。
+              </p>
+            </div>
+            <div class="modal__col">
+              <h4 class="h4">我的职责</h4>
+              <ul class="list list--compact" data-field="role">
+                <li>占位：职责点 1</li>
+                <li>占位：职责点 2</li>
+                <li>占位：职责点 3</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="modal__section">
+            <h4 class="h4">方案与过程</h4>
+            <ul class="list list--compact" data-field="approach">
+              <li>占位：关键决策与取舍</li>
+              <li>占位：信息架构/交互方案</li>
+              <li>占位：设计系统/规范沉淀</li>
+            </ul>
+          </div>
+
+          <div class="modal__section">
+            <h4 class="h4">结果（可选）</h4>
+            <p class="muted" data-field="result">
+              占位文本：补充指标或可验证事实（上线范围、稳定性、效率等）。
+            </p>
+          </div>
+        </div>
+
+        <div class="modal__footer">
+          <div class="modal__nav">
+            <button class="btn btn--ghost" type="button" data-modal-prev>
+              上一个
+            </button>
+            <button class="btn btn--ghost" type="button" data-modal-next>
+              下一个
+            </button>
+          </div>
+          <button class="btn btn--primary" type="button" data-close-modal>完成</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./main.js" defer></script>
+    <script src="./aurora.js" defer></script>
+  </body>
+</html>
+
