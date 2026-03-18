@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import ColorBends from './ColorBends'
 import './landing.css'
+// 导入头像资源（放在组件顶部）
+import avatar from './assets/avatar.png';
 
 const PROJECTS = [
   {
@@ -439,10 +441,16 @@ export default function Landing() {
           <div className="container">
             <div className="about-intro">
               <h2 className="about-intro__title">个人简介</h2>
-              <p className="about-intro__desc">
-              全正和（Allen）｜7 年 + 全链路产品体验设计师
-
-              </p>
+              
+<div className="profile-name">
+  {/* 新增头像标签 */}
+  <img 
+    src={avatar} 
+    alt="全正和（Allen）头像" 
+    className="profile-avatar"
+  />
+  全正和（Allen） 7 年产品设计师
+</div>
             </div>
 
             <div className="about-exp glass card" data-tilt>

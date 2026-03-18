@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: "Alibaba PuHuiTi 3.0";
-  src: url("https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-85-bold@1.0.0/AlibabaPuHuiTi-3-85-Bold.woff2") format("woff2");
+  src: url("https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-85-Heavy@1.0.0/AlibabaPuHuiTi-3-85-Heavy.woff2") format("woff2");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -25,7 +25,7 @@
 
 :root{
   --bg:#000000;
-  --fg:rgba(255,255,255,.85);
+  --fg:rgba(255,255,255,.80);
   --muted:rgba(255,255,255,.70);
   --muted2:rgba(255,255,255,.65);
   --border:rgba(255,255,255,.085);
@@ -175,6 +175,7 @@ code{
   padding:8px 12px;
   border-radius:999px;
   color: var(--muted);
+  font-size: 15px;
 }
 .nav__link:hover{color:var(--fg); background: rgba(255,255,255,.04)}
 .nav__link:focus-visible{outline:2px solid var(--ring); outline-offset:2px}
@@ -184,7 +185,7 @@ code{
 .btn{
   border:1px solid rgba(255,255,255,.085);
   border-radius:999px;
-  padding:10px 14px;
+  padding:8px 12px;
   background: rgba(255,255,255,.03);
   color:var(--fg);
   cursor:pointer;
@@ -204,6 +205,7 @@ code{
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  font-size: 15px;
 }
 
 .btn--primary:hover {
@@ -227,10 +229,11 @@ code{
 .btn--primary:hover::before {
   left: 100%;
 }
-.btn--brand{padding: 8px 24px}
+.btn--brand{padding: 12px 24px}
 .btn--ghost{
   background: rgba(255,255,255,.03);
   border-color: rgba(255,255,255,.10);
+  font-size: 15px;
 }
 
 .hero{
@@ -636,7 +639,7 @@ code{
   color: var(--muted2);
   max-width: 705ch;
   line-height: 1.6;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .about-exp{
@@ -829,7 +832,7 @@ code{
   align-items: stretch;
 }
 .project-card{
-  flex: 0 1 min(320px, 100%);
+  flex: 0 1 min(342px, 100%);
   max-width: 380px;
   display: flex;
   flex-direction: column;
@@ -841,7 +844,7 @@ code{
 }
 .project-card:hover{
   transform: translateY(-2px);
-  border-color: rgba(167,139,250,.26);
+  border-color: rgba(209, 194, 255, 0.26);
   box-shadow: 0 22px 70px rgba(0,0,0,.32), 0 0 0 1px rgba(167,139,250,.10);
 }
 .project-card:focus-visible{
@@ -905,15 +908,24 @@ code{
   flex-wrap: wrap;
   flex-direction: column;
 }
-.project-card__num{
-  font-size: 28px;
-
-
-  font-weight: 700;
+.project-card__num {
+  font-size: 36px;
+  font-weight: 800;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: var(--fg);
+  /* 移除原 color: var(--fg); ，替换为渐变文字样式 */
+  /* 1. 设置渐变背景（可替换成你想要的渐变） */
+  background: linear-gradient(174deg, #907FF0, #8A4970);
+  /* 2. 裁剪背景到文字区域（webkit前缀兼容Chrome/Safari） */
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* 3. 文字透明，露出渐变背景 */
+  color: transparent;
+  /* 可选：兼容旧浏览器的降级方案（保留原颜色） */
+  /* color: var(--fg); */
   flex-shrink: 0;
+  /* 关键：如果元素是行内/行内块，需保证背景能覆盖文字（多数情况无需额外设置，若渐变不显示可加） */
+  display: inline-block;
 }
 .project-card__text{
   min-width: 0;
@@ -1250,3 +1262,22 @@ code{
   [data-reveal]{opacity:1; transform:none; transition:none}
 }
 
+/* 头像样式 */
+.profile-avatar {
+  width: 32px;    /* 固定宽度 32px */
+  height: 32px;   /* 固定高度 32px */
+  border-radius: 50%; /* 可选：圆形头像，不需要则删除 */
+  margin-right: 8px;  /* 头像和文字的间距，可调整 */
+  vertical-align: middle; /* 垂直居中对齐文字 */
+  object-fit: cover; /* 保证图片不变形 */
+  border: 1px solid var(--border); /* 可选：加边框，匹配页面风格 */
+}
+
+/* 文案容器样式（保证行内对齐） */
+.profile-name {
+  display: inline-flex; /* 弹性布局，头像和文字一行显示 */
+  align-items: center;  /* 垂直居中 */
+  font-size: 18px; /* 可选：调整文案字号，匹配页面风格 */
+  font-weight: 500;
+  color: var(--fg);
+}
