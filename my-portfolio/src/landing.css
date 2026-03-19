@@ -25,7 +25,7 @@
 
 :root{
   --bg:#000000;
-  --fg:rgba(255,255,255,.80);
+  --fg:rgba(255,255,255,.85);
   --muted:rgba(255,255,255,.70);
   --muted2:rgba(255,255,255,.65);
   --border:rgba(255,255,255,.085);
@@ -840,6 +840,8 @@ code{
   cursor: pointer;
   padding: 0;
   overflow: hidden;
+  /* 新增：卡片圆角，和预览区图片匹配 */
+  border-radius: var(--radius);
   transition: transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease);
 }
 .project-card:hover{
@@ -853,39 +855,52 @@ code{
 }
 .project-card__preview{
   position: relative;
-  padding: 14px 14px 10px;
+  /* 移除所有内边距，让图片占满 */
+  padding: 0;
+  /* 移除底部边框 */
+  border-bottom: none;
+  /* 移除背景色（图片会覆盖） */
+  background: transparent;
+  /* 强制占满卡片宽度，高度由图片撑满/固定 */
+  width: 100%;
+  /* 可选：设置固定高度，保证卡片统一 */
+  height: 220px; 
+  /* 溢出隐藏，防止图片超出预览区 */
+  overflow: hidden;
+}
+/* 封面图占满 preview 区域，不变形 */
+.project-card__cover {
+  width: 100%;
+  height: 100%;
+  /* 核心：按比例填充，裁剪多余部分，不变形 */
+  object-fit: cover;
+  /* 居中显示图片核心区域 */
+  object-position: center;
+  /* 消除图片默认行内间隙 */
+  display: block;
+  /* 仅底部1px边框（关键新增） */
   border-bottom: 1px solid rgba(255,255,255,.08);
-  background: rgba(0,0,0,.12);
+  /* 可选：清除其他方向的默认边框（防止冲突） */
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  /* 可选：若想边框和图片边缘无间隙，取消边框占用的空间（默认box-sizing已设为border-box，可省略） */
+  box-sizing: border-box;
 }
 .project-card__label{
-  display: block;
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--muted2);
-  margin-bottom: 10px;
+  /* 隐藏预览区内的文字标签 */
+  display: none !important;
 }
 .project-card__placeholder{
-  border-radius: 12px;
   overflow: hidden;
-  min-height: 140px;
+  min-height: 100%;
   background:
     linear-gradient(135deg, rgba(167,139,250,.08) 0%, rgba(96,165,250,.06) 50%, rgba(34,211,238,.04) 100%);
   border: 1px solid rgba(255,255,255,.06);
   display: grid;
   place-items: center;
 }
-.project-card__graphic{
-  width: 80%;
-  height: 80%;
-  max-width: 120px;
-  max-height: 100px;
-  background:
-    linear-gradient(180deg, rgba(167,139,250,.15) 0%, transparent 50%),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0, rgba(255,255,255,.06) 1px, transparent 1px, transparent 20px),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0, rgba(255,255,255,.06) 1px, transparent 1px, transparent 20px);
-  border-radius: 8px;
-}
+
 .project-card__icons{
   display: flex;
   gap: 8px;
@@ -1093,136 +1108,334 @@ code{
   width:1px; height: 14px;
   background: rgba(255,255,255,.18);
 }
-
+/* 弹窗外层容器 */
 .modal{
-  position:fixed; inset:0;
-  display:none;
-  z-index:80;
+  position: fixed;
+  inset: 0;
+  display: block;
+  z-index: 80;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  width: 100%;
+  padding: 0 24px; /* 外层左右padding，避免内容贴边 */
+  box-sizing: border-box;
 }
-.modal.is-open{display:block}
-.modal .modal__panel{
-  opacity:0;
-  transform: translateY(10px) scale(.985);
+
+/* 弹窗打开状态 */
+.modal.is-open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
-.modal.is-open .modal__panel{
-  opacity:1;
-  transform: translateY(0) scale(1);
-}
-.modal .modal__backdrop{opacity:0}
-.modal.is-open .modal__backdrop{opacity:1}
-.modal__panel, .modal__backdrop{
-  transition: opacity .18s var(--ease), transform .18s var(--ease);
-}
+
+/* 遮罩层 */
 .modal__backdrop{
-  position:absolute; inset:0;
+  position: absolute;
+  inset: 0;
   background: rgba(0,0,0,.62);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  will-change: opacity, transform;
+  transform: translateZ(0);
+  transition: opacity .25s var(--ease, cubic-bezier(0.25, 0.46, 0.45, 0.94));
+  opacity: 0; /* 默认隐藏 */
 }
-.modal__panel{
-  position:relative;
-  width:min(980px, calc(100% - 28px));
-  max-height: min(86vh, 760px);
-  overflow:auto;
-  margin: 7vh auto 0;
-  box-shadow: var(--shadow);
-  border-radius: 22px;
-  border-color: rgba(255,255,255,.12);
-}
-.modal__header{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap: 12px;
-  padding: 16px 16px 10px;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-.modal__kicker{
-  color: var(--muted2);
-  font-size: 12px;
-}
-.modal__title{
-  margin:0;
-  font-size: 18px;
-  letter-spacing:.2px;
-}
-.icon-btn{
-  width: 40px; height: 40px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.03);
-  color: var(--fg);
-  cursor:pointer;
-}
-.icon-btn:hover{background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18)}
-.icon-btn:focus-visible{outline:2px solid var(--ring); outline-offset:3px}
 
-.modal__body{padding: 14px 16px 18px}
+/* 打开状态下的遮罩层 */
+.modal.is-open .modal__backdrop{
+  opacity: 1;
+}
+
+/* 弹窗面板（核心容器） */
+.modal__panel{
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  width: 100%;
+  height: 93vh;
+  overflow: hidden;
+  margin: 0;
+  box-shadow: var(--shadow);
+  border-radius: 16px 16px 0 0; /* 顶部圆角16px，底部直角 */
+  display: flex;
+  flex-direction: column;
+  background: rgba(0,0,0,.12);
+  /* 弹窗动画 */
+  opacity: 0;
+  transform: translate3d(-50%, 28vh, 0) scale(.99);
+  will-change: transform, opacity;
+  transition: 
+    transform 820ms var(--ease, cubic-bezier(0.25, 0.46, 0.45, 0.94)),
+    opacity 820ms var(--ease, cubic-bezier(0.25, 0.46, 0.45, 0.94));
+}
+
+/* 打开状态下的弹窗面板 */
+.modal.is-open .modal__panel{
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0) scale(1);
+}
+
+/* 弹窗头部 */
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 32px; /* 统一左右padding，无需拆分 */
+  flex: 0 0 auto; /* 修正flex值，避免头部被拉伸 */
+  font-size: 16px;
+  width: 100%;
+  max-width: 1018px;
+  margin: 0 auto; /* 水平居中 */
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(255,255,255,.06); /* 补回头部底边框 */
+}
+
+/* 弹窗标题 */
+.modal__header-title{
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: .2px;
+  color: var(--fg);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+/* 关闭按钮 */
+.modal__close-btn{
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.12);
+  color: var(--muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: 
+    background .16s var(--ease, cubic-bezier(0.25, 0.46, 0.45, 0.94)), 
+    border-color .16s var(--ease, cubic-bezier(0.25, 0.46, 0.45, 0.94));
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal__close-btn:hover{
+  background: #ffffff1b;
+  border-color: #ffffff1b;
+}
+
+.modal__close-btn:active{
+  transform: translateY(1px);
+}
+
+.modal__close-btn:focus-visible{
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* 弹窗主体（内容区） */
+.modal__body{
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px 32px;
+  display: block;
+  justify-content: initial;
+  box-sizing: border-box;
+}
+
+/* 图片容器（核心自适应容器） */
+.modal__gallery{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 960px; /* 保持之前的宽度逻辑：屏幕>=960 不再变宽 */
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* 封面容器（合并重复样式，高度自适应） */
 .modal__cover{
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.10);
+  display: none !important;
+  position: relative;
+  width: 100%; /* 继承gallery宽度 */
+  border-radius: 0;
   background:
     radial-gradient(800px 420px at 30% 20%, rgba(167,139,250,.18), transparent 60%),
     radial-gradient(700px 460px at 70% 60%, rgba(96,165,250,.14), transparent 60%),
     rgba(255,255,255,.03);
-  overflow:hidden;
-  min-height: 240px;
-  display:grid;
-  place-items:center;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
   margin-bottom: 14px;
+  box-sizing: border-box;
+  height: auto; /* 高度完全自适应 */
+  min-height: unset; /* 清空最小高度限制 */
 }
+
+/* 封面图片（等比例缩放） */
+.modal__cover-img{
+  width: 100%;
+  height: auto; /* 高度随宽度等比变化 */
+  display: block;
+  object-fit: cover; /* 防止图片变形 */
+}
+
+/* 封面内部容器 */
 .modal__cover-inner{
   width: 92%;
   height: 80%;
   border-radius: 16px;
   border: 1px dashed rgba(255,255,255,.18);
-  display:grid;
-  place-items:center;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
 }
+
+/* 封面文案-标题 */
+.modal__cover-kicker{
+  font-size: 14px;
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: .2px;
+  margin-bottom: 10px;
+}
+
+/* 封面文案-正文 */
+.modal__cover-text{
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.78);
+}
+
+/* 普通图片（等比例缩放） */
+.modal__img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 封面徽章 */
 .modal__cover-badge{
   font-size: 12px;
   color: var(--muted);
   padding: 8px 12px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
   background: rgba(0,0,0,.18);
 }
+
+/* 双列布局 */
 .modal__cols{
-  display:grid;
+  display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
   margin: 10px 0 2px;
 }
+
+/* 列容器 */
 .modal__col{
   padding: 14px;
-  border-radius: 18px;
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.08);
   background: rgba(0,0,0,.10);
+  box-sizing: border-box;
 }
+
+/* 区块容器 */
 .modal__section{
   margin-top: 12px;
   padding: 14px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,.08);
   background: rgba(0,0,0,.10);
+  box-sizing: border-box;
 }
+
+/* 小标题样式 */
 .h4{
-  margin:0 0 8px;
+  margin: 0 0 8px;
   font-size: 13px;
   color: var(--muted);
   font-weight: 600;
 }
-.modal__footer{
-  padding: 12px 16px 16px;
-  border-top: 1px solid rgba(255,255,255,.06);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-}
-.modal__nav{display:flex; gap:10px; flex-wrap:wrap}
 
+/* 弹窗底部（切换按钮区） */
+.modal__bottom{
+  flex: 0 0 auto; /* 修正flex值，避免底部被拉伸 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0;
+  margin-top: 20px;
+  box-sizing: border-box;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 切换按钮 */
+.modal__nav-btn{
+  border-radius: var(--radius);
+  background: rgba(177,158,239,.10);
+  border: 1px solid rgba(177,158,239,.55); /* 补全border属性 */
+  box-shadow: 0 10px 40px rgba(68,45,216,.14);
+  padding: 10px 14px;
+  color: var(--fg);
+  cursor: pointer;
+  transition: all .2s var(--ease);
+}
+
+.modal__nav-btn:hover{
+  background: rgba(177,158,239,.16);
+  border-color: rgba(177,158,239,.75);
+}
+
+.modal__nav-btn:disabled{
+  opacity: .45;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  background: rgba(255,255,255,.03);
+  border-color: rgba(255,255,255,.10);
+}
+
+.modal__nav-btn:disabled:hover{
+  background: rgba(255,255,255,.03);
+  border-color: rgba(255,255,255,.10);
+}
+
+/* 移动端适配（980px以下） */
 @media (max-width: 980px){
+  /* 弹窗面板全屏 */
+  .modal__panel{
+    width: 100vw;
+    height: 95vh;
+    top: 0; /* 移动端贴顶显示 */
+  }
+
+  /* 标题字号保持 */
+  .modal__header-title{
+    font-size: 16px;
+  }
+
+  /* 双列改单列 */
+  .modal__cols{
+    grid-template-columns: 1fr;
+  }
+
+  /* 减少移动端内边距 */
+  .modal__header,
+  .modal__body,
+  .modal__bottom{
+
+  }
+
+  /* 其他全局移动端样式 */
   .nav{display:none}
   .hero__inner{grid-template-columns: 1fr; gap: 24px}
   .hero{padding: 92px 0 64px}
@@ -1237,7 +1450,6 @@ code{
   .project-card{flex: 1 1 100%; max-width: none}
   .metrics{grid-template-columns: 1fr}
   .contact-grid{grid-template-columns: 1fr; gap: 12px}
-  .modal__cols{grid-template-columns: 1fr}
   .header__actions .btn--ghost{display:none}
   .dash{grid-template-columns: 1fr}
   .dash__sidebar{display:none}
@@ -1246,6 +1458,7 @@ code{
   .dash-metrics__row{grid-template-columns: 1fr}
 }
 
+/* 渐显动画 */
 [data-reveal]{
   opacity:0;
   transform: translateY(10px);
@@ -1256,6 +1469,7 @@ code{
   transform: translateY(0);
 }
 
+/* 减少动画适配 */
 @media (prefers-reduced-motion: reduce){
   *{scroll-behavior:auto}
   .bg-aurora{animation:none}
@@ -1264,20 +1478,20 @@ code{
 
 /* 头像样式 */
 .profile-avatar {
-  width: 32px;    /* 固定宽度 32px */
-  height: 32px;   /* 固定高度 32px */
-  border-radius: 50%; /* 可选：圆形头像，不需要则删除 */
-  margin-right: 8px;  /* 头像和文字的间距，可调整 */
-  vertical-align: middle; /* 垂直居中对齐文字 */
-  object-fit: cover; /* 保证图片不变形 */
-  border: 1px solid var(--border); /* 可选：加边框，匹配页面风格 */
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  object-fit: cover;
+  border: 1px solid var(--border);
 }
 
-/* 文案容器样式（保证行内对齐） */
+/* 文案容器样式 */
 .profile-name {
-  display: inline-flex; /* 弹性布局，头像和文字一行显示 */
-  align-items: center;  /* 垂直居中 */
-  font-size: 18px; /* 可选：调整文案字号，匹配页面风格 */
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
   font-weight: 500;
   color: var(--fg);
 }

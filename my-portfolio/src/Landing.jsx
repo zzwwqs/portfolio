@@ -3,11 +3,17 @@ import ColorBends from './ColorBends'
 import './landing.css'
 // 导入头像资源（放在组件顶部）
 import avatar from './assets/avatar.png';
+import projectCover1 from './assets/project_cover1.png'; // 路径根据你的文件层级调整
+
+const projectImageModules = import.meta.glob('./assets/project*-img*.png', {
+  eager: true,
+  import: 'default',
+})
 
 const PROJECTS = [
   {
     id: 'vika',
-    title: 'vika',
+    title: 'Vika 维格表',
     context: '占位：这是一个效率工具体验升级项目。补充目标用户、关键约束与成功指标。',
     role: ['占位：负责信息架构与关键流程设计', '占位：搭建组件规范与交付规则', '占位：与研发协作完成落地与验收'],
     approach: ['占位：对关键任务流做梳理与分层', '占位：方案对比并明确取舍', '占位：沉淀可复用的设计系统片段'],
@@ -15,7 +21,7 @@ const PROJECTS = [
   },
   {
     id: 'bika',
-    title: 'bika',
+    title: 'Bika.ai',
     context: '占位：从 0 到 1 定义产品体验，覆盖核心信息结构与交互框架。',
     role: ['占位：定义信息架构与导航结构', '占位：制作高保真与原型验证', '占位：推动跨团队对齐与落地'],
     approach: ['占位：建立体验原则与设计基线', '占位：关键页面/状态的系统化设计', '占位：交付可维护的组件化规范'],
@@ -35,6 +41,7 @@ const EMAIL = 'quanzhenghe15@gmail.com'
 
 export default function Landing() {
   const [modalOpen, setModalOpen] = useState(false)
+  const [renderGallery, setRenderGallery] = useState(false)
   const [activeProjectIndex, setActiveProjectIndex] = useState(0)
   const [copyStatus, setCopyStatus] = useState('')
   const modalPanelRef = useRef(null)
@@ -45,21 +52,27 @@ export default function Landing() {
     setActiveProjectIndex(index)
     lastFocusRef.current = document.activeElement
     setModalOpen(true)
+    setRenderGallery(false)
+    // 让“底部缓慢上滑”先跑起来，随后再渲染图片，减少卡顿/解码抖动
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setRenderGallery(true))
+    })
   }, [])
 
   const closeModal = useCallback(() => {
     setModalOpen(false)
+    setRenderGallery(false)
     if (lastFocusRef.current && typeof lastFocusRef.current.focus === 'function') {
       lastFocusRef.current.focus()
     }
   }, [])
 
   const goPrev = useCallback(() => {
-    setActiveProjectIndex((i) => (i - 1 + PROJECTS.length) % PROJECTS.length)
+    setActiveProjectIndex((i) => (i > 0 ? i - 1 : i))
   }, [])
 
   const goNext = useCallback(() => {
-    setActiveProjectIndex((i) => (i + 1) % PROJECTS.length)
+    setActiveProjectIndex((i) => (i < PROJECTS.length - 1 ? i + 1 : i))
   }, [])
 
   const copyEmail = useCallback(async () => {
@@ -287,6 +300,15 @@ export default function Landing() {
   }, [])
 
   const project = PROJECTS[activeProjectIndex] || PROJECTS[0]
+
+  const canPrev = activeProjectIndex > 0
+  const canNext = activeProjectIndex < PROJECTS.length - 1
+
+  const projectNum = project.id === 'vika' ? 1 : project.id === 'bika' ? 2 : 3
+  const getGallerySrc = (imgIndex) => {
+    const key = `./assets/project${projectNum}-img${imgIndex}.png`
+    return projectImageModules[key] || projectCover1
+  }
 
   return (
     <>
@@ -527,15 +549,12 @@ export default function Landing() {
                 data-project
               >
                 <div className="project-card__preview">
-                  <span className="project-card__label">项目介绍</span>
-                  <div className="project-card__placeholder" aria-hidden="true">
-                    <div className="project-card__graphic"></div>
-                  </div>
-                  <div className="project-card__icons" aria-hidden="true">
-                    <span className="project-card__icon"></span>
-                    <span className="project-card__icon"></span>
-                    <span className="project-card__icon"></span>
-                  </div>
+                {/* 只保留封面图，删除其他所有元素 */}
+                  <img 
+                    src={projectCover1}
+                    alt="项目封面" 
+                    className="project-card__cover" // 必须和 CSS 中的类名一致
+                  />
                 </div>
                 <div className="project-card__body">
                   <span className="project-card__num">01</span>
@@ -554,15 +573,12 @@ export default function Landing() {
                 data-project
               >
                 <div className="project-card__preview">
-                  <span className="project-card__label">项目介绍</span>
-                  <div className="project-card__placeholder" aria-hidden="true">
-                    <div className="project-card__graphic"></div>
-                  </div>
-                  <div className="project-card__icons" aria-hidden="true">
-                    <span className="project-card__icon"></span>
-                    <span className="project-card__icon"></span>
-                    <span className="project-card__icon"></span>
-                  </div>
+                  {/* 只保留封面图，删除其他所有元素 */}
+                  <img 
+                    src={projectCover1} 
+                    alt="项目封面" 
+                    className="project-card__cover" // 必须和 CSS 中的类名一致
+                  />
                 </div>
                 <div className="project-card__body">
                   <span className="project-card__num">02</span>
@@ -580,16 +596,12 @@ export default function Landing() {
                 data-tilt
                 data-project
               >
-                <div className="project-card__preview">
-                  <span className="project-card__label">项目介绍</span>
-                  <div className="project-card__placeholder" aria-hidden="true">
-                    <div className="project-card__graphic"></div>
-                  </div>
-                  <div className="project-card__icons" aria-hidden="true">
-                    <span className="project-card__icon"></span>
-                    <span className="project-card__icon"></span>
-                    <span className="project-card__icon"></span>
-                  </div>
+                <div className="project-card__preview">{/* 只保留封面图，删除其他所有元素 */}
+                  <img 
+                    src={projectCover1}
+                    alt="项目封面" 
+                    className="project-card__cover" // 必须和 CSS 中的类名一致
+                  />
                 </div>
                 <div className="project-card__body">
                   <span className="project-card__num">03</span>
@@ -606,7 +618,8 @@ export default function Landing() {
         <section className="section" id="contact" data-reveal>
           <div className="container">
             <div className="section__head">
-              <h2 className="section__title">关于 / 联系</h2>
+              <h2 className="section__title">Contacts
+              </h2>
               <p className="section__desc">
                 欢迎交流合作与机会。你可以通过微信或邮箱联系我。
               </p>
@@ -667,73 +680,61 @@ export default function Landing() {
           className="modal__panel glass"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="modal-title"
+          aria-labelledby="modal-project-title"
           tabIndex={-1}
         >
           <div className="modal__header">
-            <div>
-              <div className="modal__kicker">项目</div>
-              <h3 className="modal__title" id="modal-title">{project.title}</h3>
-            </div>
+            <h2 className="modal__header-title" id="modal-project-title">
+              {project.title}
+            </h2>
             <button
+              className="modal__close-btn"
               type="button"
-              className="icon-btn"
-              aria-label="关闭"
+              aria-label="关闭弹窗"
               onClick={closeModal}
             >
-              <span aria-hidden="true">×</span>
+              ×
             </button>
           </div>
 
           <div className="modal__body" id="modal-body">
-            <div className="modal__cover" role="img" aria-label="封面占位">
-              <div className="modal__cover-inner">
-                <div className="modal__cover-badge">封面占位</div>
-              </div>
+            <div className="modal__gallery" aria-label="项目作品图片">
+              {renderGallery &&
+                Array.from({ length: 12 }, (_, i) => {
+                  const imgIndex = i + 1
+                  const src = getGallerySrc(imgIndex)
+
+                  return (
+                    <img
+                      key={imgIndex}
+                      src={src}
+                      alt={`项目图 ${imgIndex}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="modal__img"
+                    />
+                  )
+                })}
             </div>
 
-            <div className="modal__cols">
-              <div className="modal__col">
-                <h4 className="h4">背景 / 目标</h4>
-                <p className="muted" data-field="context">{project.context}</p>
-              </div>
-              <div className="modal__col">
-                <h4 className="h4">我的职责</h4>
-                <ul className="list list--compact" data-field="role">
-                  {project.role.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="modal__section">
-              <h4 className="h4">方案与过程</h4>
-              <ul className="list list--compact" data-field="approach">
-                {project.approach.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="modal__section">
-              <h4 className="h4">结果（可选）</h4>
-              <p className="muted" data-field="result">{project.result}</p>
-            </div>
-          </div>
-
-          <div className="modal__footer">
-            <div className="modal__nav">
-              <button type="button" className="btn btn--ghost" onClick={goPrev}>
-                上一个
+            <div className="modal__bottom" aria-label="项目切换按钮">
+              <button
+                type="button"
+                className="btn modal__nav-btn"
+                onClick={goPrev}
+                disabled={!canPrev}
+              >
+                上一个项目
               </button>
-              <button type="button" className="btn btn--ghost" onClick={goNext}>
-                下一个
+              <button
+                type="button"
+                className="btn modal__nav-btn"
+                onClick={goNext}
+                disabled={!canNext}
+              >
+                下一个项目
               </button>
             </div>
-            <button type="button" className="btn btn--primary" onClick={closeModal}>
-              完成
-            </button>
           </div>
         </div>
       </div>
