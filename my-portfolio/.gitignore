@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# GitHub rejects blobs >100MB; keep locally for dev, or use Git LFS / external host for deploy
+src/assets/bika_5.mp4
+src/assets/bika_11.mp4

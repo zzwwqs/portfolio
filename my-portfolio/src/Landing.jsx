@@ -3,9 +3,28 @@ import ColorBends from './ColorBends'
 import './landing.css'
 // 导入头像资源（放在组件顶部）
 import avatar from './assets/avatar.png';
-import projectCover1 from './assets/project_cover1.png'; // 路径根据你的文件层级调整
+import vikaCover1 from './assets/vika_1.png';
+import bikaCover1 from './assets/bika_1.png';
+import companyLogo from './assets/logo.png';
+import wechatQr from './assets/wechat-qr.png';
 
 const projectImageModules = import.meta.glob('./assets/project*-img*.png', {
+  eager: true,
+  import: 'default',
+})
+const vikaImageModules = import.meta.glob('./assets/vika_*.png', {
+  eager: true,
+  import: 'default',
+})
+const vikaVideoModules = import.meta.glob('./assets/vika_*.mp4', {
+  eager: true,
+  import: 'default',
+})
+const bikaImageModules = import.meta.glob('./assets/bika_*.png', {
+  eager: true,
+  import: 'default',
+})
+const bikaVideoModules = import.meta.glob('./assets/bika_*.mp4', {
   eager: true,
   import: 'default',
 })
@@ -44,6 +63,7 @@ export default function Landing() {
   const [renderGallery, setRenderGallery] = useState(false)
   const [activeProjectIndex, setActiveProjectIndex] = useState(0)
   const [copyStatus, setCopyStatus] = useState('')
+  const [loadedMedia, setLoadedMedia] = useState({})
   const modalPanelRef = useRef(null)
   const lastFocusRef = useRef(null)
 
@@ -53,6 +73,7 @@ export default function Landing() {
     lastFocusRef.current = document.activeElement
     setModalOpen(true)
     setRenderGallery(false)
+    setLoadedMedia({})
     // 让“底部缓慢上滑”先跑起来，随后再渲染图片，减少卡顿/解码抖动
     requestAnimationFrame(() => {
       requestAnimationFrame(() => setRenderGallery(true))
@@ -62,6 +83,7 @@ export default function Landing() {
   const closeModal = useCallback(() => {
     setModalOpen(false)
     setRenderGallery(false)
+    setLoadedMedia({})
     if (lastFocusRef.current && typeof lastFocusRef.current.focus === 'function') {
       lastFocusRef.current.focus()
     }
@@ -305,10 +327,57 @@ export default function Landing() {
   const canNext = activeProjectIndex < PROJECTS.length - 1
 
   const projectNum = project.id === 'vika' ? 1 : project.id === 'bika' ? 2 : 3
-  const getGallerySrc = (imgIndex) => {
+  const getLegacyGallerySrc = (imgIndex) => {
     const key = `./assets/project${projectNum}-img${imgIndex}.png`
-    return projectImageModules[key] || projectCover1
+    return projectImageModules[key] || vikaCover1
   }
+  const getProjectGalleryItems = () => {
+    if (project.id === 'vika') {
+      return [...Object.entries(vikaImageModules), ...Object.entries(vikaVideoModules)]
+        .map(([path, src]) => {
+          const match = path.match(/vika_(\d+)\.(png|mp4)$/)
+          if (!match) return null
+          const index = Number(match[1])
+          const ext = match[2]
+          return {
+            key: `vika-${index}`,
+            index,
+            src,
+            type: ext === 'mp4' ? 'video' : 'image',
+          }
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.index - b.index)
+    }
+    if (project.id === 'bika') {
+      return [...Object.entries(bikaImageModules), ...Object.entries(bikaVideoModules)]
+        .map(([path, src]) => {
+          const match = path.match(/bika_(\d+)\.(png|mp4)$/)
+          if (!match) return null
+          const index = Number(match[1])
+          const ext = match[2]
+          return {
+            key: `bika-${index}`,
+            index,
+            src,
+            type: ext === 'mp4' ? 'video' : 'image',
+          }
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.index - b.index)
+    }
+
+    return Array.from({ length: 12 }, (_, i) => {
+      const index = i + 1
+      return {
+        key: `${project.id}-${index}`,
+        index,
+        src: getLegacyGallerySrc(index),
+        type: 'image',
+      }
+    })
+  }
+  const galleryItems = getProjectGalleryItems()
 
   return (
     <>
@@ -322,17 +391,16 @@ export default function Landing() {
         <div className="container header__inner">
           <a className="brand" href="#top" aria-label="回到顶部">
             <span className="brand__dot" aria-hidden="true"></span>
-            <span className="brand__text">全正和</span>
+            <span className="brand__text">2026 作品集</span>
           </a>
 
           <nav className="nav" aria-label="主导航">
-            <a className="nav__link" href="#projects">项目</a>
-            <a className="nav__link" href="#about">关于</a>
-            <a className="nav__link" href="#contact">联系</a>
+          <a className="nav__link" href="#top">首页</a>
+          <a className="nav__link" href="#about">个人简介</a>
+            <a className="nav__link" href="#projects">作品目录</a>
           </nav>
 
           <div className="header__actions">
-            <a className="btn btn--ghost" href="#projects">查看项目</a>
             <a className="btn btn--primary" href="#contact">联系我</a>
           </div>
         </div>
@@ -361,7 +429,7 @@ export default function Landing() {
             <div className="hero__copy hero__copy--center">
               <div className="pill">
                 <span className="pill__dot" aria-hidden="true"></span>
-                <span>Web & App 体验设计</span>
+                <span>UI & UX 设计</span>
                 <span className="pill__sep" aria-hidden="true"></span>
                 <span>全正和</span>
               </div>
@@ -398,23 +466,21 @@ export default function Landing() {
                 <div className="logo-wall__track" data-marquee>
                   <div className="logo-wall__row">
                     <span className="logo">Vika.cn</span>
-                    <span className="logo">维格云</span>
                     <span className="logo">Aitable.ai</span>
                     <span className="logo">Bika.ai</span>
-                    <span className="logo">产品体验</span>
-                    <span className="logo">用户故事</span>
-                    <span className="logo">设计沉淀</span>
-                    <span className="logo">知识分享</span>
+                    <span className="logo">User Experience</span>
+                    <span className="logo">Daily Sharing</span>
+                    <span className="logo">Design Accumulation</span>
+                    <span className="logo">User Story</span>
                   </div>
                   <div className="logo-wall__row" aria-hidden="true">
                     <span className="logo">Vika.cn</span>
-                    <span className="logo">维格云</span>
                     <span className="logo">Aitable.ai</span>
                     <span className="logo">Bika.ai</span>
-                    <span className="logo">产品体验</span>
-                    <span className="logo">用户故事</span>
-                    <span className="logo">设计沉淀</span>
-                    <span className="logo">知识分享</span>
+                    <span className="logo">User Experience</span>
+                    <span className="logo">Daily Sharing</span>
+                    <span className="logo">Design Accumulation</span>
+                    <span className="logo">User Story</span>
                   </div>
                 </div>
               </div>
@@ -430,7 +496,7 @@ export default function Landing() {
                   <div className="dash-metrics__left">
                     <div className="dash-metric-card dash-metric-card--big glass">
                       <div className="dash-metric-card__value">820+</div>
-                      <div className="dash-metric-card__title">完成设计任务</div>
+                      <div className="dash-metric-card__title">2020-2026 总计完成设计任务</div>
                       <div className="dash-metric-card__sub">Complete the design task</div>
                     </div>
 
@@ -471,7 +537,7 @@ export default function Landing() {
     alt="全正和（Allen）头像" 
     className="profile-avatar"
   />
-  全正和（Allen） 7 年产品设计师
+  全正和（Allen）・ 7 年产品设计师 ・ 29岁
 </div>
             </div>
 
@@ -479,15 +545,19 @@ export default function Landing() {
               <h3 className="about-exp__title">工作经历</h3>
               <div className="exp-item">
                 <div className="exp-item__head">
-                  <span className="exp-item__icon exp-item__icon--v">V</span>
+                  <img
+                    src={companyLogo}
+                    alt="维格云 logo"
+                    className="exp-item__icon exp-item__icon--v-logo"
+                  />
                   <span className="exp-item__company">深圳维格云科技有限公司</span>
                   <span className="exp-item__dates">2020.6.1-2026.01</span>
                 </div>
                 <ul className="list list--compact exp-item__list">
-                  <li>负责维格表 WEB 端 & APP 端，梳理用户使用场景、理解业务逻辑，并进行用户调研，完成研究结果到设计阶段的转化；</li>
-                  <li>把控设计产出，跟进开发测试，还原设计成果，并收集上线数据及用户反馈，持续优化；</li>
-                  <li>跟踪和分析业界的可用性设计趋势，并对产品结构、流程、功能界面用户体验、交互功能等进行研究并提出改善方案；</li>
-                  <li>定期组织团队设计分享，沉淀设计过程和方法，提升团队影响力和专业度；</li>
+                  <li>负责维格表、Bika.ai两大产品的WEB端与APP端全链路UI/UX设计，深度梳理核心用户使用场景，精准拆解复杂业务逻辑，开展针对性用户调研与需求分析，高效完成用户研究成果到原型、视觉、交互方案的落地转化，搭建贴合用户习惯的产品体验体系。</li>
+                  <li>严格把控从需求拆解、原型绘制、高保真视觉输出到交互规范制定的全流程设计产出，全程跟进前端开发与测试环节，精准推动设计稿1:1还原，同步收集上线后用户反馈与核心体验数据，基于数据驱动完成产品体验的持续迭代与优化</li>
+                  <li>实时跟踪国内外前沿UI/UX设计趋势与行业优秀案例，深度分析产品现有结构、用户流程、功能界面及交互逻辑的痛点，针对性输出系统化体验改善方案，助力产品提升核心竞争力与用户留存率</li>
+                  <li>定期牵头组织团队内部设计分享会，梳理沉淀标准化设计流程、设计方法与组件规范，搭建可复用设计资产库，主动赋能团队成员，全面提升团队整体设计专业度与行业影响力</li>
                 </ul>
               </div>
               <div className="exp-item">
@@ -522,8 +592,8 @@ export default function Landing() {
                 <div className="chips chips--wrap chips--with-icon">
                   <span className="chip chip--muted chip--check">Figma</span>
                   <span className="chip chip--muted chip--check">Notion</span>
-                  <span className="chip chip--muted chip--check">飞书文档</span>
                   <span className="chip chip--muted chip--check">After Effects</span>
+                   <span className="chip chip--muted chip--check">飞书文档</span>
                   <span className="chip chip--muted chip--check">剪映</span>
                   <span className="chip chip--muted chip--check">Cursor</span>
 
@@ -551,7 +621,7 @@ export default function Landing() {
                 <div className="project-card__preview">
                 {/* 只保留封面图，删除其他所有元素 */}
                   <img 
-                    src={projectCover1}
+                    src={vikaCover1}
                     alt="项目封面" 
                     className="project-card__cover" // 必须和 CSS 中的类名一致
                   />
@@ -575,7 +645,7 @@ export default function Landing() {
                 <div className="project-card__preview">
                   {/* 只保留封面图，删除其他所有元素 */}
                   <img 
-                    src={projectCover1} 
+                    src={bikaCover1} 
                     alt="项目封面" 
                     className="project-card__cover" // 必须和 CSS 中的类名一致
                   />
@@ -598,7 +668,7 @@ export default function Landing() {
               >
                 <div className="project-card__preview">{/* 只保留封面图，删除其他所有元素 */}
                   <img 
-                    src={projectCover1}
+                    src={vikaCover1}
                     alt="项目封面" 
                     className="project-card__cover" // 必须和 CSS 中的类名一致
                   />
@@ -618,29 +688,22 @@ export default function Landing() {
         <section className="section" id="contact" data-reveal>
           <div className="container">
             <div className="section__head">
-              <h2 className="section__title">Contacts
+              <h2 className="section__title">联系我
               </h2>
               <p className="section__desc">
-                欢迎交流合作与机会。你可以通过微信或邮箱联系我。
+                欢迎交流合作与机会。你可以通过微信或邮箱联系我
               </p>
             </div>
 
             <div className="contact-grid">
-              <div className="glass card">
+              <div className="glass card contact-card contact-card--wechat">
                 <h3 className="card__title">微信</h3>
                 <div className="qr">
-                  <div className="qr__placeholder" role="img" aria-label="微信二维码占位">
-                    <div className="qr__grid" aria-hidden="true"></div>
-                    <div className="qr__label">二维码占位</div>
-                  </div>
-                  <p className="muted">
-                    后续把二维码图片替换到 <code>assets/wechat-qr.png</code> 并更新这里的
-                    <code>img</code> 即可。
-                  </p>
+                  <img className="qr__img" src={wechatQr} alt="微信二维码" />
                 </div>
               </div>
 
-              <div className="glass card">
+              <div className="glass card contact-card contact-card--email">
                 <h3 className="card__title">邮箱</h3>
                 <p className="contact-email">
                   <a className="link" href="mailto:quanzhenghe15@gmail.com">
@@ -652,7 +715,7 @@ export default function Landing() {
                     复制邮箱
                   </button>
                   <a className="btn btn--primary" href="mailto:quanzhenghe15@gmail.com">
-                    发邮件
+                    发送邮件
                   </a>
                 </div>
                 <p className="muted" id="copy-status" aria-live="polite">{copyStatus}</p>
@@ -664,7 +727,7 @@ export default function Landing() {
                 © {new Date().getFullYear()} 全正和
               </span>
               <span className="footer__sep" aria-hidden="true"></span>
-              <span className="muted">界面 / 体验 作品集</span>
+              <span className="muted">UI / UX 作品集</span>
             </footer>
           </div>
         </section>
@@ -700,19 +763,39 @@ export default function Landing() {
           <div className="modal__body" id="modal-body">
             <div className="modal__gallery" aria-label="项目作品图片">
               {renderGallery &&
-                Array.from({ length: 12 }, (_, i) => {
-                  const imgIndex = i + 1
-                  const src = getGallerySrc(imgIndex)
+                galleryItems.map((item, idx) => {
+                  const isLoaded = Boolean(loadedMedia[item.key])
+                  const itemClass = `modal__media ${isLoaded ? 'is-loaded' : ''}`
+                  const itemStyle = { '--media-delay': `${Math.min(idx * 70, 560)}ms` }
+
+                  if (item.type === 'video') {
+                    return (
+                      <div key={item.key} className={itemClass} style={itemStyle}>
+                        <video
+                          src={item.src}
+                          className="modal__img"
+                          controls
+                          preload="metadata"
+                          playsInline
+                          onLoadedData={() =>
+                            setLoadedMedia((prev) => ({ ...prev, [item.key]: true }))
+                          }
+                        />
+                      </div>
+                    )
+                  }
 
                   return (
-                    <img
-                      key={imgIndex}
-                      src={src}
-                      alt={`项目图 ${imgIndex}`}
-                      loading="lazy"
-                      decoding="async"
-                      className="modal__img"
-                    />
+                    <div key={item.key} className={itemClass} style={itemStyle}>
+                      <img
+                        src={item.src}
+                        alt={`项目图 ${item.index}`}
+                        loading="lazy"
+                        decoding="async"
+                        className="modal__img"
+                        onLoad={() => setLoadedMedia((prev) => ({ ...prev, [item.key]: true }))}
+                      />
+                    </div>
                   )
                 })}
             </div>
