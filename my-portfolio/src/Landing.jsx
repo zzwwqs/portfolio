@@ -5,6 +5,7 @@ import './landing.css'
 import avatar from './assets/avatar.png';
 import vikaCover1 from './assets/vika_1.png';
 import bikaCover1 from './assets/bika_1.png';
+import otherCover1 from './assets/other_1.png';
 import companyLogo from './assets/logo.png';
 import wechatQr from './assets/wechat-qr.png';
 
@@ -25,6 +26,14 @@ const bikaImageModules = import.meta.glob('./assets/bika_*.png', {
   import: 'default',
 })
 const bikaVideoModules = import.meta.glob('./assets/bika_*.mp4', {
+  eager: true,
+  import: 'default',
+})
+const otherImageModules = import.meta.glob('./assets/other_*.png', {
+  eager: true,
+  import: 'default',
+})
+const otherVideoModules = import.meta.glob('./assets/other_*.mp4', {
   eager: true,
   import: 'default',
 })
@@ -65,6 +74,7 @@ export default function Landing() {
   const [copyStatus, setCopyStatus] = useState('')
   const [loadedMedia, setLoadedMedia] = useState({})
   const modalPanelRef = useRef(null)
+  const modalBodyRef = useRef(null)
   const lastFocusRef = useRef(null)
 
   const openModal = useCallback((projectId) => {
@@ -121,6 +131,14 @@ export default function Landing() {
       return () => cancelAnimationFrame(t)
     }
   }, [modalOpen])
+
+  // 切换项目时回到内容区顶部，避免仍停留在上一项目的滚动位置
+  useEffect(() => {
+    if (!modalOpen || !modalBodyRef.current) return
+    const el = modalBodyRef.current
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+  }, [activeProjectIndex, modalOpen])
 
   // Keyboard: Escape, arrows, focus trap
   useEffect(() => {
@@ -358,6 +376,23 @@ export default function Landing() {
           const ext = match[2]
           return {
             key: `bika-${index}`,
+            index,
+            src,
+            type: ext === 'mp4' ? 'video' : 'image',
+          }
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.index - b.index)
+    }
+    if (project.id === 'other') {
+      return [...Object.entries(otherImageModules), ...Object.entries(otherVideoModules)]
+        .map(([path, src]) => {
+          const match = path.match(/other_(\d+)\.(png|mp4)$/)
+          if (!match) return null
+          const index = Number(match[1])
+          const ext = match[2]
+          return {
+            key: `other-${index}`,
             index,
             src,
             type: ext === 'mp4' ? 'video' : 'image',
@@ -668,7 +703,7 @@ export default function Landing() {
               >
                 <div className="project-card__preview">{/* 只保留封面图，删除其他所有元素 */}
                   <img 
-                    src={vikaCover1}
+                    src={otherCover1}
                     alt="项目封面" 
                     className="project-card__cover" // 必须和 CSS 中的类名一致
                   />
@@ -760,7 +795,7 @@ export default function Landing() {
             </button>
           </div>
 
-          <div className="modal__body" id="modal-body">
+          <div ref={modalBodyRef} className="modal__body" id="modal-body">
             <div className="modal__gallery" aria-label="项目作品图片">
               {renderGallery &&
                 galleryItems.map((item, idx) => {
