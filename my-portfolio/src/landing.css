@@ -1195,24 +1195,18 @@ code{
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: transparent;
+  background: rgba(0,0,0,.62);
   will-change: opacity, transform;
   transform: translateZ(0);
+  /* 直接作用在 backdrop 本体上，避免 ::before 在不同环境下不生效 */
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
   overflow: hidden;
   /* 优化：开合过渡时长统一，和面板动画匹配 */
   transition: opacity 480ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   opacity: 0;
 }
 
-.modal__backdrop::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: rgba(0,0,0,.50);
-  backdrop-filter: blur(22px) saturate(1.25);
-  -webkit-backdrop-filter: blur(22px) saturate(1.25);
-  transform: translateZ(0);
-}
 
 /* 打开状态下的遮罩层 */
 .modal.is-open .modal__backdrop{
