@@ -132,9 +132,10 @@ code{
 
 .header{
   position:sticky; top:0; z-index:30;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  background: linear-gradient(to bottom, rgba(7,6,13,.78), rgba(7,6,13,.32));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  /* 降低不透明度，让模糊对比更明显 */
+  background: linear-gradient(to bottom, rgba(7,6,13,.62), rgba(7,6,13,.22));
   border-bottom:1px solid rgba(255,255,255,.055);
 }
 .header__inner{
@@ -547,12 +548,12 @@ code{
 
 .glass{
   background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.022));
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
   border: 0.5px solid rgba(255,255,255,.105);
   border-radius: var(--radius);
   box-shadow: 0 10px 40px rgba(0,0,0,.18);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   position:relative;
   transform-style:preserve-3d;
   will-change: transform;
@@ -758,6 +759,17 @@ code{
   margin-right: 6px;
   color: var(--accent);
   font-size: 14px;
+}
+
+.btn--hero-pulse{
+  animation: heroBtnPulse 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  transform-origin: center;
+}
+
+@keyframes heroBtnPulse{
+  0%{ transform: scale(1) }
+  50%{ transform: scale(1.2) }
+  100%{ transform: scale(1) }
 }
 
 .delivery-wrap{
@@ -1195,12 +1207,12 @@ code{
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: rgba(0,0,0,.62);
+  background: rgba(0,0,0,.42);
   will-change: opacity, transform;
   transform: translateZ(0);
   /* 直接作用在 backdrop 本体上，避免 ::before 在不同环境下不生效 */
-  backdrop-filter: blur(18px) saturate(1.2);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(28px) saturate(1.35);
+  -webkit-backdrop-filter: blur(28px) saturate(1.35);
   overflow: hidden;
   /* 优化：开合过渡时长统一，和面板动画匹配 */
   transition: opacity 480ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1586,6 +1598,7 @@ code{
   *{scroll-behavior:auto}
   .bg-aurora{animation:none}
   [data-reveal]{opacity:1; transform:none; transition:none}
+  .btn--hero-pulse{animation:none}
   .modal__media{animation:none}
   .modal__media .modal__img{transition:none; transform:none; opacity:1}
 }
