@@ -488,7 +488,7 @@ export default function Landing() {
               </div>
 
               <div className="hero__cta hero__cta--center" data-stagger>
-                <a className="btn btn--primary btn--brand" href="#dashboard">
+                <a className="btn btn--primary btn--brand btn--hero-pulse" href="#dashboard">
                   开始了解
                 </a>
               </div>
@@ -625,12 +625,13 @@ export default function Landing() {
               <div className="glass card about-tools" data-tilt>
                 <h3 className="card__title">工具交付</h3>
                 <div className="chips chips--wrap chips--with-icon">
-                  <span className="chip chip--muted chip--check">Figma</span>
+                <span className="chip chip--muted chip--check">Figma</span>
                   <span className="chip chip--muted chip--check">Notion</span>
                   <span className="chip chip--muted chip--check">After Effects</span>
                    <span className="chip chip--muted chip--check">飞书文档</span>
                   <span className="chip chip--muted chip--check">剪映</span>
                   <span className="chip chip--muted chip--check">Cursor</span>
+
 
 
                 </div>

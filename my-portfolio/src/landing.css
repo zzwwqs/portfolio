@@ -136,7 +136,7 @@ code{
   -webkit-backdrop-filter: blur(18px);
   /* 降低不透明度，让模糊对比更明显 */
   background: linear-gradient(to bottom, rgba(7,6,13,.62), rgba(7,6,13,.22));
-  border-bottom:1px solid rgba(255,255,255,.055);
+  border-bottom:0.5px solid rgba(255,255,255,.105);
 }
 .header__inner{
   height:72px;
