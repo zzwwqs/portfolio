@@ -416,13 +416,13 @@ export default function Landing() {
 
   return (
     <>
-      <div className="bg-noise" aria-hidden="true"></div>
-      <div className="bg-glow" aria-hidden="true"></div>
-      <div className="bg-aurora" aria-hidden="true"></div>
-      <div className="bg-grid" aria-hidden="true"></div>
-      <div className="bg-stars" aria-hidden="true"></div>
+      <div className={`bg-noise ${modalOpen ? 'modal-backdrop-blur-fallback' : ''}`} aria-hidden="true"></div>
+      <div className={`bg-glow ${modalOpen ? 'modal-backdrop-blur-fallback' : ''}`} aria-hidden="true"></div>
+      <div className={`bg-aurora ${modalOpen ? 'modal-backdrop-blur-fallback' : ''}`} aria-hidden="true"></div>
+      <div className={`bg-grid ${modalOpen ? 'modal-backdrop-blur-fallback' : ''}`} aria-hidden="true"></div>
+      <div className={`bg-stars ${modalOpen ? 'modal-backdrop-blur-fallback' : ''}`} aria-hidden="true"></div>
 
-      <header className="header">
+      <header className={`header ${modalOpen ? 'modal-backdrop-blur-fallback' : ''}`}>
         <div className="container header__inner">
           <a className="brand" href="#top" aria-label="回到顶部">
             <span className="brand__dot" aria-hidden="true"></span>
@@ -441,7 +441,7 @@ export default function Landing() {
         </div>
       </header>
 
-      <main id="top">
+      <main id="top" className={modalOpen ? 'modal-backdrop-blur-fallback' : ''}>
         <section className="hero hero--funnel" data-reveal>
           <div className="hero__bg" aria-hidden="true">
             <ColorBends
