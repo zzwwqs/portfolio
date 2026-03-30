@@ -132,22 +132,11 @@ code{
 
 .header{
   position:sticky; top:0; z-index:30;
-  /* 关键：把 blur 放到伪元素层，避免在某些环境下“有样式但不显眼” */
-  background: transparent;
-  border-bottom:0.5px solid rgba(255,255,255,.105);
-}
-.header::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  backdrop-filter: blur(18px) saturate(1.2);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  /* 降低不透明度，让模糊对比更明显 */
   background: linear-gradient(to bottom, rgba(7,6,13,.62), rgba(7,6,13,.22));
-}
-.header__inner{
-  position: relative;
-  z-index: 1;
+  border-bottom:0.5px solid rgba(255,255,255,.105);
 }
 
 /* backdrop-filter 在部分部署/渲染环境下可能看不到效果兜底
@@ -567,10 +556,13 @@ code{
 }
 
 .glass{
-  background: transparent;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
   border: 0.5px solid rgba(255,255,255,.105);
   border-radius: var(--radius);
   box-shadow: 0 10px 40px rgba(0,0,0,.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   position:relative;
   transform-style:preserve-3d;
   will-change: transform;
@@ -581,10 +573,11 @@ code{
   inset:0;
   border-radius: inherit;
   pointer-events:none;
-  /* 背景玻璃层（只模糊背景，不模糊内容文字） */
-  backdrop-filter: blur(18px) saturate(1.2);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+  background:
+    radial-gradient(120% 90% at 20% 0%, rgba(167,139,250,.12), transparent 55%),
+    radial-gradient(120% 100% at 80% 0%, rgba(96,165,250,.08), transparent 55%);
+  opacity:.35;
+  mix-blend-mode:screen;
 }
 .glass::after{
   content:"";
@@ -592,11 +585,6 @@ code{
   inset:0;
   border-radius: inherit;
   pointer-events:none;
-  background:
-    radial-gradient(120% 90% at 20% 0%, rgba(167,139,250,.12), transparent 55%),
-    radial-gradient(120% 100% at 80% 0%, rgba(96,165,250,.08), transparent 55%);
-  opacity:.35;
-  mix-blend-mode:screen;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.10),
     0 0 0 1px rgba(0,0,0,.10);
