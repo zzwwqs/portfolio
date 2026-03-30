@@ -1524,7 +1524,7 @@ code{
 
 .modal__nav-btn:hover{
   background: rgba(177,158,239,.16);
-  border-color: rgba(177,158,239,.75);
+  border-color: var(--brand);
   color: var(--brand);
 }
 
