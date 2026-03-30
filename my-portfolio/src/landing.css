@@ -338,7 +338,7 @@ code{
   flex:0 0 auto;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding:8px 12px;
   border-radius:999px;
   border: 1px solid rgba(255,255,255,.12);
@@ -770,6 +770,20 @@ code{
   font-size: 14px;
 }
 
+.chip--tool{
+  padding-left: 12px;
+}
+.chip--tool::before{
+  content: none;
+}
+.chip__icon{
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
 .btn--hero-pulse{
   animation: heroBtnPulse 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
   transform-origin: center;
@@ -947,7 +961,7 @@ code{
   display: flex;
   gap: 14px;
   align-items: flex-start;
-  padding: 16px 14px 64px;
+  padding: 16px 16px 72px;
   flex: 1;
   flex-wrap: wrap;
   flex-direction: column;
@@ -1089,7 +1103,7 @@ code{
   grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
-.muted{color: var(--muted2)}
+.muted{color: var(--muted2);}
 .link{color: var(--fg); text-decoration:none; border-bottom:1px solid rgba(255,255,255,.20)}
 .link:hover{border-bottom-color: rgba(167,139,250,.50)}
 .contact-email{margin: 6px 0 14px}
@@ -1165,11 +1179,12 @@ code{
   gap: 16px;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  margin: 0 0 4px 0;
 }
 
 .contact-card--email #copy-status{
   text-align: center;
+  font-size: 14px;
 }
 .footer{
   margin-top: 48px;
@@ -1496,12 +1511,12 @@ code{
 
 /* 切换按钮 */
 .modal__nav-btn{
-  border-radius: 12px;
+  border-radius: 8px;
   background: rgba(95, 65, 195, 0.1);
   border: 1px solid rgba(252, 252, 252, 0.051);
   box-shadow: 0 10px 40px rgba(68,45,216,.14);
   padding: 12px 16px;
-  color: var(--fg);
+  color: var(--muted);
   cursor: pointer;
   transition: all .2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-size: 16px;
@@ -1510,6 +1525,7 @@ code{
 .modal__nav-btn:hover{
   background: rgba(177,158,239,.16);
   border-color: rgba(177,158,239,.75);
+  color: var(--brand);
 }
 
 .modal__nav-btn:disabled{
@@ -1519,11 +1535,15 @@ code{
   transform: none;
   background: rgba(255,255,255,.03);
   border-color: rgba(255,255,255,.10);
+  color: var(--muted);
+
 }
 
 .modal__nav-btn:disabled:hover{
   background: rgba(255,255,255,.03);
   border-color: rgba(255,255,255,.10);
+  color: var(--muted);
+ 
 }
 
 /* 移动端适配（980px以下） */

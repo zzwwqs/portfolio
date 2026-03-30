@@ -8,6 +8,15 @@ import bikaCover1 from './assets/bika_1.png';
 import otherCover1 from './assets/other_1.png';
 import companyLogo from './assets/logo.png';
 import wechatQr from './assets/wechat-qr.png';
+import figmaLogo from './assets/figma.png';
+import photoshopLogo from './assets/photoshop.png';
+import afterEffectsLogo from './assets/aftereffects.png';
+import principleLogo from './assets/principle.png';
+import notionLogo from './assets/notion.png';
+import feishuLogo from './assets/feishu.png';
+import jianyingLogo from './assets/jianying.png';
+import cursorLogo from './assets/cursor.png';
+import lovartLogo from './assets/lovart.png';
 
 const projectImageModules = import.meta.glob('./assets/project*-img*.png', {
   eager: true,
@@ -531,14 +540,14 @@ export default function Landing() {
                   <div className="dash-metrics__left">
                     <div className="dash-metric-card dash-metric-card--big glass">
                       <div className="dash-metric-card__value">820+</div>
-                      <div className="dash-metric-card__title">2020-2026 总计完成设计任务</div>
+                      <div className="dash-metric-card__title">2020-2026 累计交付设计项目</div>
                       <div className="dash-metric-card__sub">Complete the design task</div>
                     </div>
 
                     <div className="dash-metrics__row">
                       <div className="dash-metric-card glass">
                         <div className="dash-metric-card__value">150+</div>
-                        <div className="dash-metric-card__title">设计优化增量</div>
+                        <div className="dash-metric-card__title">产品体验优化累计</div>
                         <div className="dash-metric-card__sub">Design Optimization Increment</div>
                       </div>
                       <div className="dash-metric-card glass">
@@ -625,15 +634,42 @@ export default function Landing() {
               <div className="glass card about-tools" data-tilt>
                 <h3 className="card__title">工具交付</h3>
                 <div className="chips chips--wrap chips--with-icon">
-                <span className="chip chip--muted chip--check">Figma</span>
-                  <span className="chip chip--muted chip--check">Notion</span>
-                  <span className="chip chip--muted chip--check">After Effects</span>
-                   <span className="chip chip--muted chip--check">飞书文档</span>
-                  <span className="chip chip--muted chip--check">剪映</span>
-                  <span className="chip chip--muted chip--check">Cursor</span>
-
-
-
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={figmaLogo} alt="" aria-hidden="true" />
+                    Figma
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={photoshopLogo} alt="" aria-hidden="true" />
+                    Photoshop
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={afterEffectsLogo} alt="" aria-hidden="true" />
+                    After Effects
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={principleLogo} alt="" aria-hidden="true" />
+                    Principle
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={notionLogo} alt="" aria-hidden="true" />
+                    Notion
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={feishuLogo} alt="" aria-hidden="true" />
+                    飞书文档
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={jianyingLogo} alt="" aria-hidden="true" />
+                    剪映
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={cursorLogo} alt="" aria-hidden="true" />
+                    Cursor
+                  </span>
+                  <span className="chip chip--muted chip--tool">
+                    <img className="chip__icon" src={lovartLogo} alt="" aria-hidden="true" />
+                    Lovart
+                  </span>
                 </div>
               </div>
             </div>
