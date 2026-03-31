@@ -85,11 +85,17 @@ export default function Landing() {
   const modalPanelRef = useRef(null)
   const modalBodyRef = useRef(null)
   const lastFocusRef = useRef(null)
+  const closeCleanupTimerRef = useRef(0)
+  const MODAL_TRANSITION_MS = 480
 
   const openModal = useCallback((projectId) => {
     const index = Math.max(0, PROJECTS.findIndex((p) => p.id === projectId))
     setActiveProjectIndex(index)
     lastFocusRef.current = document.activeElement
+    if (closeCleanupTimerRef.current) {
+      window.clearTimeout(closeCleanupTimerRef.current)
+      closeCleanupTimerRef.current = 0
+    }
     setModalOpen(true)
     setRenderGallery(false)
     setLoadedMedia({})
@@ -101,10 +107,21 @@ export default function Landing() {
 
   const closeModal = useCallback(() => {
     setModalOpen(false)
-    setRenderGallery(false)
-    setLoadedMedia({})
-    if (lastFocusRef.current && typeof lastFocusRef.current.focus === 'function') {
-      lastFocusRef.current.focus()
+    // Safari 下同步卸载大量大图/视频会造成主线程卡顿，先让关闭动画开始，再延迟清理内容
+    if (closeCleanupTimerRef.current) window.clearTimeout(closeCleanupTimerRef.current)
+    closeCleanupTimerRef.current = window.setTimeout(() => {
+      setRenderGallery(false)
+      setLoadedMedia({})
+      closeCleanupTimerRef.current = 0
+      if (lastFocusRef.current && typeof lastFocusRef.current.focus === 'function') {
+        lastFocusRef.current.focus()
+      }
+    }, MODAL_TRANSITION_MS)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (closeCleanupTimerRef.current) window.clearTimeout(closeCleanupTimerRef.current)
     }
   }, [])
 
