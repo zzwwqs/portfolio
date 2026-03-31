@@ -10,7 +10,7 @@
   --border2:rgba(255,255,255,.12);
   --glass:rgba(255,255,255,.045);
   --glass2:rgba(255,255,255,.07);
-  --shadow: 0 24px 90px rgba(0,0,0,.62);
+  --shadow: 0 24px 90px rgba(0,0,0,.72);
   --ring: rgba(155, 125, 255, .55);
   --brand: #7B67EE;
   --accent: #B19EEF;
@@ -120,11 +120,11 @@ code{
 
 .header{
   position:sticky; top:0; z-index:30;
-  -webkit-backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(16px);
   /* 降低不透明度，让模糊对比更明显 */
-  background: linear-gradient(to bottom, rgb(7 6 13 / 83%), rgb(7 6 13 / 80%));
+  background: linear-gradient(to bottom, rgb(7 6 13 / 45%), rgb(7 6 13 / 45%));
   border-bottom:0.5px solid rgba(255,255,255,.105);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
 
 }
 
@@ -473,6 +473,8 @@ code{
   justify-content:flex-end;
   gap: 10px;
   text-align: left;
+  backdrop-filter: blur(16px);
+
 }
 .dash-metric-card__value{
   font-size: 56px;
@@ -555,6 +557,7 @@ code{
   position:relative;
   transform-style:preserve-3d;
   will-change: transform;
+  backdrop-filter: blur(16px);
 }
 .glass::before{
   content:"";
@@ -1220,7 +1223,7 @@ code{
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: rgba(0,0,0,.42);
+  background: rgba(0,0,0,.55);
   will-change: opacity, transform;
   transform: translateZ(0);
   /* 直接作用在 backdrop 本体上，避免 ::before 在不同环境下不生效 */
@@ -1252,7 +1255,7 @@ code{
   border-radius: 16px 16px 0 0;
   display: flex;
   flex-direction: column;
-  background: rgba(0,0,0,.12);
+  background: rgba(255,255,255,.03);
   /* 弹窗动画 - 优化：关闭动画更平缓，时长统一 */
   opacity: 0;
   transform: translate3d(-50%, 12vh, 0) scale(0.97);
@@ -1292,7 +1295,7 @@ code{
 /* 弹窗标题 */
 .modal__header-title{
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: .2px;
   color: var(--fg);
   font-weight: 800;
