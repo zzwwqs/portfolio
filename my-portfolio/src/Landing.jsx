@@ -862,10 +862,17 @@ export default function Landing() {
                       <img
                         src={item.src}
                         alt={`项目图 ${item.index}`}
-                        loading="lazy"
-                        decoding="async"
                         className="modal__img"
+                        loading="eager"
                         onLoad={() => setLoadedMedia((prev) => ({ ...prev, [item.key]: true }))}
+                        onError={() => setLoadedMedia((prev) => ({ ...prev, [item.key]: true }))}
+                        ref={(el) => {
+                          if (!el) return
+                          if (loadedMedia[item.key]) return
+                          if (el.complete && el.naturalWidth > 0) {
+                            setLoadedMedia((prev) => ({ ...prev, [item.key]: true }))
+                          }
+                        }}
                       />
                     </div>
                   )

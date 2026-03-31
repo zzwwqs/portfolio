@@ -1,27 +1,5 @@
-/* 阿里巴巴普惠体 3.0 */
-@font-face {
-  font-family: "Alibaba PuHuiTi 3.0";
-  src: url("https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-55-regular@1.0.0/AlibabaPuHuiTi-3-55-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Alibaba PuHuiTi 3.0";
-  src: url("https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-75-semibold@1.0.0/AlibabaPuHuiTi-3-75-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Alibaba PuHuiTi 3.0";
-  src: url("https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-85-Heavy@1.0.0/AlibabaPuHuiTi-3-85-Heavy.woff2") format("woff2");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
+/* 字体策略：不要依赖海外 CDN（国内/部分 Safari 容易加载失败导致“字体丢失”）。
+   保留 Alibaba PuHuiTi 作为“已安装时优先”，否则走稳定系统字体栈。 */
 
 :root{
   --bg:#000000;
@@ -52,7 +30,17 @@ body{
   margin:0;
   background: var(--bg);
   color:var(--fg);
-  font-family: "Alibaba PuHuiTi 3.0", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family:
+    "Alibaba PuHuiTi 3.0",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans SC",
+    "Source Han Sans SC",
+    sans-serif;
   font-weight: 400;
   line-height:1.5;
   overflow-x:hidden;
