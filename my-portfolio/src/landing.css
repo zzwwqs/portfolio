@@ -120,11 +120,12 @@ code{
 
 .header{
   position:sticky; top:0; z-index:30;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(12px);
   /* 降低不透明度，让模糊对比更明显 */
-  background: linear-gradient(to bottom, rgba(7,6,13,.62), rgba(7,6,13,.22));
+  background: linear-gradient(to bottom, rgb(7 6 13 / 83%), rgb(7 6 13 / 80%));
   border-bottom:0.5px solid rgba(255,255,255,.105);
+  backdrop-filter: blur(12px);
+
 }
 
 /* backdrop-filter 在部分部署/渲染环境下可能看不到效果兜底
@@ -136,7 +137,7 @@ code{
   will-change: filter;
 }
 .header__inner{
-  height:72px;
+  height:64px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1265,6 +1266,11 @@ code{
 .modal.is-open .modal__panel{
   opacity: 1;
   transform: translate3d(-50%, 0, 0) scale(1);
+}
+
+/* 打开时用 JS 对 panel focus（trap/可访问性）时 Safari 会画系统蓝边；面板不是主要可操作控件，去掉容器 ring */
+.modal__panel:focus{
+  outline: none;
 }
 
 /* 弹窗头部 */
